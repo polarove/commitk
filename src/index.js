@@ -3,7 +3,7 @@
 import inquirer from 'inquirer'
 import chalk from 'chalk'
 import { clear, log } from 'console'
-import { exec, execSync } from 'child_process'
+import { exec } from 'child_process'
 import { exit } from 'process'
 import figlet from 'figlet'
 import steps from './steps.js'
@@ -111,7 +111,7 @@ const processCommit = (commitMessage) => {
 			.concat(' -m ')
 			.concat(BREAKING_CHANGE_NOTE)
 			.concat(commitMessage.details)
-	execSync(command, (err) => {
+	exec(command, (err) => {
 		if (err) {
 			console.warn('😫 '.concat(chalk.red('提交时发生错误')))
 			console.log(`· 命令：${command}`)
