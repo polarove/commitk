@@ -35,6 +35,8 @@ const checkGitStatus = () => {
 }
 checkGitStatus()
 
+const somechange = 2
+
 const formatCode = (code) => {
 	return chalk.green(chalk.italic(code))
 }
