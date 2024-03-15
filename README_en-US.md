@@ -1,18 +1,34 @@
-## commitizen，但是 es 标准
+# A tool to help you write commit messages exclusively for Chinese 'baby'
 
-## 安装
+- Follows [Conventional commits](https://www.conventionalcommits.org/zh-hans/v1.0.0/#%e7%ba%a6%e5%ae%9a%e5%bc%8f%e6%8f%90%e4%ba%a4%e8%a7%84%e8%8c%83) by default
+
+- default language: Chinese
+
+- es module supported
+
+- zero abstracted
+
+
+## Get started
 
 ```sh
 npm i commitk -g
-
 ```
 
-## 使用
+## How to use
 
-运行这个命令
+Type this in your shell👇
 
 ```sh
 ck
 ```
 
-然后根据提示即可
+And then follow the instructions. (need translations?)
+
+Don't forget to stage changes before your commits using  `git add file-name`
+
+## Customization
+
+Modify `src/steps.js`  >  `types` 
+
+It's heavily suggested **NOT** to modify `src/index.js`
