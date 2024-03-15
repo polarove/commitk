@@ -113,8 +113,11 @@ const ifContinue = (message: string) => {
 	inquirer
 		.prompt([
 			{
-				type: 'confirm',
-				message: '确认提交？'
+				type: 'list',
+				name: 'continue',
+				message: chalk.green('确认提交本次更改？'),
+				choices: ['是', '否'],
+				filter: (input: string) => (input === '是' ? true : false)
 			}
 		])
 		.then((answer: boolean) => {
@@ -122,7 +125,7 @@ const ifContinue = (message: string) => {
 			else return exit(1)
 		})
 		.catch(() => {
-			console.warn('[commitk]：意外错误')
+			console.warn(chalk.bgYellowBright('[commitk]：意外错误'))
 			exit(1)
 		})
 }
@@ -136,5 +139,3 @@ const insertStr = (source: string, at: number, plugin: string) =>
 	source.slice(0, at).concat(plugin).concat(source.slice(at))
 
 const newLine = () => log('\n')
-
-log('some changes')
