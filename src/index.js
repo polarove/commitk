@@ -162,8 +162,7 @@ const processCommit = (message) => {
 	exec(commitCommand.concat(message), (err) => {
 		if (err) {
 			console.warn('😫 '.concat(chalk.red('提交时发生错误')))
-			console.log('· 也许你忘了添加已更改的文件，运行以下命令保存更改')
-			console.log('· git add 文件名')
+			console.log(`· 命令：${commitCommand}`)
 		} else console.log('👍 '.concat(chalk.green('已提交')))
 	})
 }
