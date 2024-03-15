@@ -113,7 +113,7 @@ const ifContinue = (message) => {
 			{
 				type: 'list',
 				name: 'continue',
-				message: chalk.green('确认提交本次更改？'),
+				message: chalk.yellow('确认提交本次更改？'),
 				choices: ['是', '否'],
 				filter: (input) => (input === '是' ? true : false)
 			}
@@ -131,6 +131,7 @@ const ifContinue = (message) => {
 const processCommit = (message) => {
 	const commitCommand = 'git commit -m '
 	exec(commitCommand.concat(message), (err) => {
+		newLine()
 		if (err) console.warn('😫'.concat(chalk.red('提交时发生错误')))
 		else console.log('👍'.concat(chalk.green('已提交')))
 	})
