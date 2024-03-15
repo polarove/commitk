@@ -56,7 +56,7 @@ const handleCommit = (output) => {
 	clear()
 	bigScreen({
 		brief: typeAndScope.concat(COLON).concat(output.title),
-		detail: output.details
+		details: output.details
 	})
 }
 
