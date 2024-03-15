@@ -78,8 +78,8 @@ const bigScreen = (commitMessage) => {
 	newLine()
 	log(`${commitMessage.brief}`)
 	if (commitMessage.details !== '') log(commitMessage.details)
-	log(chalk.green(footer))
 	newLine()
+	log(chalk.green(footer))
 	ifContinue(commitMessage)
 }
 
