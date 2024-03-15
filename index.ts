@@ -133,7 +133,7 @@ const ifContinue = (message: string) => {
 const processCommit = (message: string) => {
 	const commitCommand = 'git commit -m '
 	exec(commitCommand.concat(message), (err) => {
-		if (err) throw err
+		console.warn('提交时发生错误')
 	})
 }
 
