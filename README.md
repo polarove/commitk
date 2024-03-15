@@ -2,7 +2,7 @@
 
 [English](https://github.com/polarove/commitk/blob/master/README_en-US.md)
 
-![](https://github.com/polarove/commitk/blob/master/demo.gif)
+![](./demo.gif)
 
 # 专为中国宝宝体制打造的命令行提交消息规范工具
 
@@ -34,6 +34,6 @@ ck
 
 ## 自定义
 
-修改 `src/steps.js`  > `types`数组即可
+修改 `src/steps.js` > `types`数组即可
 
 建议不要修改`src/index.js`
