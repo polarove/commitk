@@ -96,7 +96,7 @@ const ifContinue = (commitMessage) => {
 		])
 		.then((answer) => {
 			log(answer)
-			if (answer) return processCommit(commitMessage)
+			if (answer.continue) return processCommit(commitMessage)
 			else return exit(1)
 		})
 		.catch(() => {
