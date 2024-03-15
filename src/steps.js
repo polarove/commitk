@@ -1,3 +1,5 @@
+import chalk from 'chalk'
+
 /**
  * 格式必须为
  * A：B

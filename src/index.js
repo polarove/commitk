@@ -6,7 +6,7 @@ import { clear, log } from 'console'
 import { exec } from 'child_process'
 import { exit } from 'process'
 import figlet from 'figlet'
-import steps from './steps'
+import steps from './steps.js'
 
 const COLON = '：'
 const BREAKING_CHANGE_MARKER = '!'
@@ -48,45 +48,39 @@ const init = () => {
 }
 
 const handleCommit = (output) => {
-	const result = parseCommitMessage(output)
-	checkCommitMessage(result)
-}
-
-const parseCommitMessage = (output) => {
 	let typeAndScope = undefined
 	if (output.scope === '') typeAndScope = output.type
 	else typeAndScope = output.type.concat('(').concat(output.scope).concat(')')
 	if (output.breakingChange)
 		typeAndScope = typeAndScope.concat(BREAKING_CHANGE_MARKER)
-	return typeAndScope.concat(COLON).concat(output.title)
-}
-
-const checkCommitMessage = (commitMessage) => {
 	clear()
-	bigScreen(commitMessage)
+	bigScreen({
+		brief: typeAndScope.concat(COLON).concat(output.title),
+		detail: output.details
+	})
 }
 
-const bigScreen = (message) => {
+const bigScreen = (commitMessage) => {
 	const divider = (length, str = '') => {
 		if (str.length < length) return divider(length, str.concat('-'))
 		else return str
 	}
 	const title = '提交消息👇'
 	const header = insertStr(
-		divider(message.length),
-		message.length / 2,
+		divider(commitMessage.brief.length),
+		commitMessage.brief.length / 2,
 		'提交消息👇'
 	)
-	const footer = divider(message.length + title.length + 4)
+	const footer = divider(commitMessage.brief.length + title.length + 4)
 	log(chalk.green(header))
 	newLine()
-	log(message)
+	log(commitMessage.brief)
 	newLine()
 	log(chalk.green(footer))
-	ifContinue(message)
+	ifContinue(commitMessage)
 }
 
-const ifContinue = (message) => {
+const ifContinue = (commitMessage) => {
 	inquirer
 		.prompt([
 			{
@@ -98,7 +92,7 @@ const ifContinue = (message) => {
 			}
 		])
 		.then((answer) => {
-			if (answer) return processCommit(message)
+			if (answer) return processCommit(commitMessage)
 			else return exit(1)
 		})
 		.catch(() => {
@@ -107,9 +101,11 @@ const ifContinue = (message) => {
 		})
 }
 
-const processCommit = (message) => {
-	const commitCommand = 'git commit -m '
-	exec(commitCommand.concat(message), (err) => {
+const processCommit = (commitMessage) => {
+	let command = `git commit -m ${commitMessage.brief}`
+	if (commitMessage.details)
+		command = command.concat(' -m ').concat(commitMessage.details)
+	exec(command, (err) => {
 		if (err) {
 			console.warn('😫 '.concat(chalk.red('提交时发生错误')))
 			console.log(`· 命令：${commitCommand}`)
