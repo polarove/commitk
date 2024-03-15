@@ -116,6 +116,7 @@ const processCommit = (commitMessage) => {
 			console.warn('😫 '.concat(chalk.red('提交时发生错误')))
 			console.log(`· 命令：${command}`)
 		} else console.log('👍 '.concat(chalk.green('已提交')))
+		exit(1)
 	})
 }
 
