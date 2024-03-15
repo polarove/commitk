@@ -136,3 +136,5 @@ const insertStr = (source: string, at: number, plugin: string) =>
 	source.slice(0, at).concat(plugin).concat(source.slice(at))
 
 const newLine = () => log('\n')
+
+log('some changes')
