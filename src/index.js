@@ -14,30 +14,31 @@ const useTerminalTitle = (title, color) =>
 	log(color(figlet.textSync(title, { horizontalLayout: 'full' })))
 useTerminalTitle('commitk', chalk.blue)
 
-// const checkGitStatus = () => {
-// 	const gitStatus = 'git diff --exit-code'
-// 	exec(gitStatus, (_, stdout, stderr) => {
-// 		if (stderr) {
-// 			log(chalk.red('运行 git diff 命令时发生错误'))
-// 			exit(0)
-// 		}
-// 		if (stdout) {
-// 			console.log(chalk.yellow('[commitk]：还有尚未保存的更改'))
-// 			console.log(
-// 				chalk.yellow(
-// 					`[commitk]：运行 ${formatCode('git add 文件名')} 来保存更改`
-// 				)
-// 			)
-// 			return exit(1)
-// 		} else init()
-// 	})
-// }
-// checkGitStatus()
+const checkGitStatus = () => {
+	const gitStatus = 'git diff --cached'
+	exec(gitStatus, (_, stdout, stderr) => {
+		if (stderr) {
+			log(chalk.red('运行 git diff 命令时发生错误'))
+			exit(0)
+		}
+		if (stdout) init()
+		else {
+			console.log(chalk.yellow('[commitk]：暂无已保存的更改'))
+			console.log(
+				chalk.yellow(
+					`[commitk]：运行 ${formatCode('git add 文件名')} 来保存更改`
+				)
+			)
+			return exit(1)
+		}
+	})
+}
+checkGitStatus()
 
-// const formatCode = (code) => {
-// 	return chalk.green(chalk.italic(code))
-// }
-let d = 2
+const formatCode = (code) => {
+	return chalk.green(chalk.italic(code))
+}
+
 const init = () => {
 	inquirer
 		.prompt([
@@ -93,8 +94,6 @@ const init = () => {
 		.then((res) => handleCommit(res))
 		.catch((err) => console.warn(err))
 }
-
-init()
 
 const handleCommit = (output) => {
 	const result = parseCommitMessage(output)
