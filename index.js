@@ -14,59 +14,87 @@ const useTerminalTitle = (title, color) =>
 	log(color(figlet.textSync(title, { horizontalLayout: 'full' })))
 useTerminalTitle('commitk', chalk.blue)
 
-inquirer
-	.prompt([
-		{
-			type: 'list',
-			name: 'breakingChange',
-			message: chalk.yellow('是否有破坏性变更？'),
-			choices: ['否', '是'],
-			filter: (input) => (input === '是' ? true : false)
-		},
-		{
-			type: 'list',
-			name: 'type',
-			message: chalk.blue('本次提交在哪些方面做出变动？'),
-			choices: [
-				'修复：bug相关的变更',
-				'功能：新功能、修改已有功能',
-				'格式：如文档格式化，重命名变量等',
-				'性能：性能优化相关的更改',
-				'文档：仅修改项目文档，不涉及源代码的修改',
-				'撤销：撤回提交',
-				'其他：任何不涉及源代码的修改'
-			],
-			validate: (value) => {
-				if (value.length) return true
-				else return '本次提交在哪些方面做出变动？'
+// const checkGitStatus = () => {
+// 	const gitStatus = 'git diff --exit-code'
+// 	exec(gitStatus, (_, stdout, stderr) => {
+// 		if (stderr) {
+// 			log(chalk.red('运行 git diff 命令时发生错误'))
+// 			exit(0)
+// 		}
+// 		if (stdout) {
+// 			console.log(chalk.yellow('[commitk]：还有尚未保存的更改'))
+// 			console.log(
+// 				chalk.yellow(
+// 					`[commitk]：运行 ${formatCode('git add 文件名')} 来保存更改`
+// 				)
+// 			)
+// 			return exit(1)
+// 		} else init()
+// 	})
+// }
+// checkGitStatus()
+
+// const formatCode = (code) => {
+// 	return chalk.green(chalk.italic(code))
+// }
+
+const init = () => {
+	inquirer
+		.prompt([
+			{
+				type: 'list',
+				name: 'breakingChange',
+				message: chalk.yellow('是否有破坏性变更？'),
+				choices: ['否', '是'],
+				filter: (input) => (input === '是' ? true : false)
 			},
-			filter: (input) => input.split('：')[0]
-		},
-		{
-			type: 'input',
-			name: 'title',
-			message: chalk.green('对本次提交做一个简短的描述：'),
-			validate: (value) => {
-				if (value.length) {
-					if (value.length > 80)
-						return '描述过长，请控制在80个字符以内👆'
-					else return true
-				} else return '请输入一个简短的描述👆'
+			{
+				type: 'list',
+				name: 'type',
+				message: chalk.blue('本次提交在哪些方面做出变动？'),
+				choices: [
+					'修复：bug相关的变更',
+					'功能：新功能、修改已有功能',
+					'格式：如文档格式化，重命名变量等',
+					'性能：性能优化相关的更改',
+					'文档：仅修改项目文档，不涉及源代码的修改',
+					'撤销：撤回提交',
+					'其他：任何不涉及源代码的修改'
+				],
+				validate: (value) => {
+					if (value.length) return true
+					else return '本次提交在哪些方面做出变动？'
+				},
+				filter: (input) => input.split('：')[0]
+			},
+			{
+				type: 'input',
+				name: 'title',
+				message: chalk.green('对本次提交做一个简短的描述：'),
+				validate: (value) => {
+					if (value.length) {
+						if (value.length > 80)
+							return '描述过长，请控制在80个字符以内👆'
+						else return true
+					} else return '请输入一个简短的描述👆'
+				}
+			},
+			{
+				type: 'input',
+				name: 'scope',
+				message: chalk.dim('修改范围(可选)：')
+			},
+			{
+				type: 'input',
+				name: 'details',
+				message: chalk.dim('详细描述(可选)：')
 			}
-		},
-		{
-			type: 'input',
-			name: 'scope',
-			message: chalk.dim('修改范围(可选)：')
-		},
-		{
-			type: 'input',
-			name: 'details',
-			message: chalk.dim('详细描述(可选)：')
-		}
-	])
-	.then((res) => handleCommit(res))
-	.catch((err) => console.warn(err))
+		])
+		.then((res) => handleCommit(res))
+		.catch((err) => console.warn(err))
+}
+
+init()
 
 const handleCommit = (output) => {
 	const result = parseCommitMessage(output)
@@ -131,8 +159,11 @@ const ifContinue = (message) => {
 const processCommit = (message) => {
 	const commitCommand = 'git commit -m '
 	exec(commitCommand.concat(message), (err) => {
-		if (err) console.warn('😫 '.concat(chalk.red('提交时发生错误')))
-		else console.log('👍 '.concat(chalk.green('已提交')))
+		if (err) {
+			console.warn('😫 '.concat(chalk.red('提交时发生错误')))
+			console.log('· 也许你忘了添加已更改的文件，运行以下命令保存更改')
+			console.log('· git add 文件名')
+		} else console.log('👍 '.concat(chalk.green('已提交')))
 	})
 }
 
