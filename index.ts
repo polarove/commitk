@@ -6,7 +6,6 @@ import { clear, log } from 'console'
 import useTerminalTitle from './src/terminal-title'
 import { exec } from 'child_process'
 import { exit } from 'process'
-import { writeFileSync } from 'fs'
 
 interface Feedback {
 	[key: string]: string
