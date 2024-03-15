@@ -16,6 +16,16 @@ es module
 
 ## 安装
 
+**选项一**
+
+克隆本仓库，然后进入项目根目录，运行如下命令
+
+```sh
+npm run commitk
+```
+
+**选项二（暂不支持）**
+
 ```sh
 npm i commitk -g
 ```

@@ -14,13 +14,21 @@
 
 ## Get started
 
+**Option one**
+
+clone this repository, and head to the project's root, run
+
+```sh
+npm run commitk
+```
+
+**Option two (working on progress)**
+
 ```sh
 npm i commitk -g
 ```
 
 ## How to use
-
-Type this in your shell👇
 
 ```sh
 ck

@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"tsx": "tsx index.ts",
+		"commitk": "npm i && npm i -g",
 		"test": "vitest"
 	},
 	"devDependencies": {
