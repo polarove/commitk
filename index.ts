@@ -132,7 +132,9 @@ const ifContinue = (message: string) => {
 
 const processCommit = (message: string) => {
 	const commitCommand = 'git commit -m '
-	exec(commitCommand.concat(message))
+	exec(commitCommand.concat("'").concat(message).concat("'"), (err) => {
+		if (err) throw err
+	})
 }
 
 const insertStr = (source: string, at: number, plugin: string) =>
