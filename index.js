@@ -1,23 +1,17 @@
 #!/usr/bin/env node
 
 import inquirer from 'inquirer'
-import chalk, { ChalkInstance } from 'chalk'
+import chalk from 'chalk'
 import { clear, log } from 'console'
 import { exec } from 'child_process'
 import { exit } from 'process'
 import figlet from 'figlet'
 
-interface Feedback {
-	[key: string]: string
-}
-
 const COLON = '：'
 const BREAKING_CHANGE_MARKER = '!'
 clear()
-
-const useTerminalTitle = (title: string, color: ChalkInstance) =>
+const useTerminalTitle = (title, color) =>
 	log(color(figlet.textSync(title, { horizontalLayout: 'full' })))
-
 useTerminalTitle('commitk', chalk.blue)
 
 inquirer
@@ -27,7 +21,7 @@ inquirer
 			name: 'breakingChange',
 			message: chalk.yellow('是否有破坏性变更？'),
 			choices: ['否', '是'],
-			filter: (input: string) => (input === '是' ? true : false)
+			filter: (input) => (input === '是' ? true : false)
 		},
 		{
 			type: 'list',
@@ -42,17 +36,17 @@ inquirer
 				'撤销：撤回提交',
 				'其他：任何不涉及源代码的修改'
 			],
-			validate: (value: string) => {
+			validate: (value) => {
 				if (value.length) return true
 				else return '本次提交在哪些方面做出变动？'
 			},
-			filter: (input: string) => input.split('：')[0]
+			filter: (input) => input.split('：')[0]
 		},
 		{
 			type: 'input',
 			name: 'title',
 			message: chalk.green('对本次提交做一个简短的描述：'),
-			validate: (value: string) => {
+			validate: (value) => {
 				if (value.length) {
 					if (value.length > 80)
 						return '描述过长，请控制在80个字符以内👆'
@@ -74,12 +68,12 @@ inquirer
 	.then((res) => handleCommit(res))
 	.catch((err) => console.warn(err))
 
-const handleCommit = (output: Feedback) => {
-	const result: string = parseCommitMessage(output)
+const handleCommit = (output) => {
+	const result = parseCommitMessage(output)
 	checkCommitMessage(result)
 }
 
-const parseCommitMessage = (output: Feedback) => {
+const parseCommitMessage = (output) => {
 	let typeAndScope = undefined
 	if (output.scope === '') typeAndScope = output.type
 	else typeAndScope = output.type.concat('(').concat(output.scope).concat(')')
@@ -88,13 +82,13 @@ const parseCommitMessage = (output: Feedback) => {
 	return typeAndScope.concat(COLON).concat(output.title)
 }
 
-const checkCommitMessage = (commitMessage: string) => {
+const checkCommitMessage = (commitMessage) => {
 	clear()
 	bigScreen(commitMessage)
 }
 
-const bigScreen = (message: string) => {
-	const divider = (length: number, str: string = ''): string => {
+const bigScreen = (message) => {
+	const divider = (length, str = '') => {
 		if (str.length < length) return divider(length, str.concat('-'))
 		else return str
 	}
@@ -113,7 +107,7 @@ const bigScreen = (message: string) => {
 	ifContinue(message)
 }
 
-const ifContinue = (message: string) => {
+const ifContinue = (message) => {
 	inquirer
 		.prompt([
 			{
@@ -121,10 +115,10 @@ const ifContinue = (message: string) => {
 				name: 'continue',
 				message: chalk.green('确认提交本次更改？'),
 				choices: ['是', '否'],
-				filter: (input: string) => (input === '是' ? true : false)
+				filter: (input) => (input === '是' ? true : false)
 			}
 		])
-		.then((answer: boolean) => {
+		.then((answer) => {
 			if (answer) return processCommit(message)
 			else return exit(1)
 		})
@@ -134,14 +128,15 @@ const ifContinue = (message: string) => {
 		})
 }
 
-const processCommit = (message: string) => {
+const processCommit = (message) => {
 	const commitCommand = 'git commit -m '
 	exec(commitCommand.concat(message), (err) => {
-		if (err) console.warn('提交时发生错误')
+		if (err) console.warn('❌ 提交时发生错误')
+		else console.log('✔ 已提交')
 	})
 }
 
-const insertStr = (source: string, at: number, plugin: string) =>
+const insertStr = (source, at, plugin) =>
 	source.slice(0, at).concat(plugin).concat(source.slice(at))
 
 const newLine = () => log('\n')
