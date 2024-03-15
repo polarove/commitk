@@ -10,6 +10,8 @@ import steps from './steps.js'
 
 const COLON = '：'
 const BREAKING_CHANGE_MARKER = '!'
+const BREAKING_CHANGE_NOTE = '破坏性更新：'
+
 clear()
 const useTerminalTitle = (title, color) =>
 	log(color(figlet.textSync(title, { horizontalLayout: 'full' })))
@@ -104,7 +106,10 @@ const ifContinue = (commitMessage) => {
 const processCommit = (commitMessage) => {
 	let command = `git commit -m ${commitMessage.brief}`
 	if (commitMessage.details)
-		command = command.concat(' -m ').concat(commitMessage.details)
+		command = command
+			.concat(' -m ')
+			.concat(BREAKING_CHANGE_NOTE)
+			.concat(commitMessage.details)
 	exec(command, (err) => {
 		if (err) {
 			console.warn('😫 '.concat(chalk.red('提交时发生错误')))
