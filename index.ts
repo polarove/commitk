@@ -132,7 +132,7 @@ const ifContinue = (message: string) => {
 
 const processCommit = (message: string) => {
 	const commitCommand = 'git commit -m '
-	exec(commitCommand.concat("'").concat(message).concat("'"), (err) => {
+	exec(commitCommand.concat(message), (err) => {
 		if (err) throw err
 	})
 }
