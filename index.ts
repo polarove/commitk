@@ -6,6 +6,7 @@ import { clear, log } from 'console'
 import useTerminalTitle from './src/terminal-title'
 import { exec } from 'child_process'
 import { exit } from 'process'
+import { writeFileSync } from 'fs'
 
 interface Feedback {
 	[key: string]: string
@@ -133,6 +134,7 @@ const ifContinue = (message: string) => {
 const processCommit = (message: string) => {
 	const commitCommand = 'git commit -m '
 	exec(commitCommand.concat(message), (err) => {
+		console.log(err)
 		console.warn('提交时发生错误')
 	})
 }
