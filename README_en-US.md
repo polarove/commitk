@@ -16,7 +16,7 @@
 
 **Option one**
 
-clone this repository, and head to the project's root, run
+Clone this repository, and head to the project's root, run
 
 ```sh
 npm run commitk
@@ -30,13 +30,14 @@ npm i commitk -g
 
 ## How to use
 
+Don't forget to stage changes before your commits using `git add file-name`
+Then run this command
+
 ```sh
 ck
 ```
 
 And then follow the instructions. (need translations?)
-
-Don't forget to stage changes before your commits using `git add file-name`
 
 ## Customization
 
