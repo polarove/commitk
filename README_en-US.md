@@ -1,6 +1,6 @@
 ## commitk
 
-![](https://github.com/polarove/commitk/images/demo.gif)
+![](https://github.com/polarove/commitk/blob/master/demo.gif)
 
 ## A tool to help you write commit messages exclusively for Chinese 'baby'
 

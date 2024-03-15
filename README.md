@@ -2,7 +2,7 @@
 
 [English](https://github.com/polarove/commitk/blob/master/README_en-US.md)
 
-![](https://github.com/polarove/commitk/images/demo.gif)
+![](https://github.com/polarove/commitk/blob/master/demo.gif)
 
 # 专为中国宝宝体制打造的命令行提交消息规范工具
 
