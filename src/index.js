@@ -76,9 +76,10 @@ const bigScreen = (commitMessage) => {
 	const footer = divider(commitMessage.brief.length + TITLE.length + 4)
 	log(chalk.green(header))
 	newLine()
-	log(`${commitMessage.brief}\n`)
+	log(`${commitMessage.brief}`)
 	if (commitMessage.details !== '') log(commitMessage.details)
 	log(chalk.green(footer))
+	newLine()
 	ifContinue(commitMessage)
 }
 
