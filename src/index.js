@@ -105,6 +105,7 @@ const processCommit = (commitMessage) => {
 	let command = `git commit -m ${commitMessage.brief}`
 	if (commitMessage.details)
 		command = command.concat(' -m ').concat(commitMessage.details)
+	log(command)
 	exec(command, (err) => {
 		if (err) {
 			console.warn('😫 '.concat(chalk.red('提交时发生错误')))
