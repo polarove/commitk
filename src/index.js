@@ -11,6 +11,7 @@ import steps from './steps.js'
 const COLON = '：'
 const BREAKING_CHANGE_MARKER = '!'
 const BREAKING_CHANGE_NOTE = '破坏性更新：'
+const TITLE = '提交消息如下👇'
 
 clear()
 const useTerminalTitle = (title, color) =>
@@ -67,13 +68,12 @@ const bigScreen = (commitMessage) => {
 		if (str.length < length) return divider(length, str.concat('-'))
 		else return str
 	}
-	const title = '提交消息👇'
 	const header = insertStr(
 		divider(commitMessage.brief.length),
 		commitMessage.brief.length / 2,
-		'提交消息👇'
+		TITLE
 	)
-	const footer = divider(commitMessage.brief.length + title.length + 4)
+	const footer = divider(commitMessage.brief.length + TITLE.length + 4)
 	log(chalk.green(header))
 	newLine()
 	log(commitMessage.brief)
