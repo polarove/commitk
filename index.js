@@ -38,6 +38,8 @@ useTerminalTitle('commitk', chalk.blue)
 // 	return chalk.green(chalk.italic(code))
 // }
 
+let d = 2
+
 const init = () => {
 	inquirer
 		.prompt([
