@@ -131,8 +131,8 @@ const ifContinue = (message) => {
 const processCommit = (message) => {
 	const commitCommand = 'git commit -m '
 	exec(commitCommand.concat(message), (err) => {
-		if (err) console.warn('❌ 提交时发生错误')
-		else console.log('✔ 已提交')
+		if (err) console.warn('😫'.concat(chalk.red('提交时发生错误')))
+		else console.log('👍'.concat(chalk.green('已提交')))
 	})
 }
 
