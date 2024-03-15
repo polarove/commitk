@@ -77,10 +77,6 @@ const bigScreen = (commitMessage) => {
 	log(chalk.green(header))
 	newLine()
 	log(`${commitMessage.brief}\n`)
-	if (commitMessage.details !== '') {
-		log('yes')
-		log(commitMessage.details)
-	}
 	newLine()
 	log(chalk.green(footer))
 	ifContinue(commitMessage)
