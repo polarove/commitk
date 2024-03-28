@@ -6,7 +6,7 @@ import { clear, log } from 'console'
 import { exec } from 'child_process'
 import { exit } from 'process'
 import figlet from 'figlet'
-import steps from './steps.js'
+import steps from './src/steps.js'
 
 const COLON = '：'
 const BREAKING_CHANGE_MARKER = '!'
